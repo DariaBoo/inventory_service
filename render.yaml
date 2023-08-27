@@ -6,22 +6,22 @@ services:
         name: postgresql
     env:
       - key: POSTGRES_DB
-        value: inventory_management
+        value: postgres
       - key: POSTGRES_USER
         value: admin
       - key: POSTGRES_PASSWORD
-        value: 1234
+        value: VbZblRhtP62ugQc2IiOXMkLr4aSJTl
 
   - name: cozy_home
     env:
       - key: SPRING_PROFILES_ACTIVE
         value: production
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://postgresdb:5432/inventory_management
+        value: jdbc:postgresql://postgresdb:5432/postgres?ssl=true&sslmode=verify-full&sslrootcert=/app/root.crt
       - key: SPRING_DATASOURCE_USERNAME
         value: admin
       - key: SPRING_DATASOURCE_PASSWORD
-        value: 1234
+        value: VbZblRhtP62ugQc2IiOXMkLr4aSJTl
       - key: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
         value: inventory
       - key: SPRING_JPA_HIBERNATE_DDL_AUTO

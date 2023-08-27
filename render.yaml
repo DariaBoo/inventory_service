@@ -1,0 +1,34 @@
+services:
+  - name: postgresdb
+    image: postgres:latest
+    ports:
+      - port: 5432
+        name: postgresql
+    env:
+      - key: POSTGRES_DB
+        value: inventory_management
+      - key: POSTGRES_USER
+        value: admin
+      - key: POSTGRES_PASSWORD
+        value: 1234
+
+  - name: cozy_home
+    env:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://postgresdb:5432/inventory_management
+      - key: SPRING_DATASOURCE_USERNAME
+        value: admin
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: 1234
+      - key: SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA
+        value: inventory
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: none
+    buildCommand: mvn clean package
+    startCommand: java -jar target/inventory-service-0.0.1-SNAPSHOT.jar
+    ports:
+      - port: 8081
+        name: http
+    healthCheckPath: /actuator/health

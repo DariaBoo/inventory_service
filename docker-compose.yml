@@ -9,9 +9,9 @@ services:
     ports:
       - 8081:8081
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresdb:5432/inventory_management
+      SPRING_DATASOURCE_URL: jdbc:postgresql://us-east-1.1011fee9-16fc-4815-a65b-dc761c359a59.aws.ybdb.io:5433/postgres?ssl=true&sslmode=verify-full&sslrootcert=./root.crt
       SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_DATASOURCE_PASSWORD: VbZblRhtP62ugQc2IiOXMkLr4aSJTl
       SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA: inventory
       SPRING_JPA_HIBERNATE_DDL_AUTO: none
     volumes:

@@ -3,7 +3,7 @@ services:
     image: postgres:latest
     ports:
       - port: 5432
-        name: postgresql
+        name: postgresdb
     env:
       - key: POSTGRES_DB
         value: postgres

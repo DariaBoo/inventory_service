@@ -1,17 +1,4 @@
 services:
-  - name: postgresdb
-    image: postgres:latest
-    ports:
-      - port: 5433
-        name: postgresdb
-    env:
-      - key: POSTGRES_DB
-        value: postgres
-      - key: POSTGRES_USER
-        value: admin
-      - key: POSTGRES_PASSWORD
-        value: VbZblRhtP62ugQc2IiOXMkLr4aSJTl
-
   - name: cozy_home
     env:
       - key: SPRING_PROFILES_ACTIVE

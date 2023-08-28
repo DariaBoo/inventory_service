@@ -13,8 +13,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class InventoryApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(InventoryApplication.class, args);
 		String path = new File("root.crt").getAbsolutePath();
         System.out.println("Absolute path to root.crt: " + path);
+		SpringApplication.run(InventoryApplication.class, args);
+		
 	}	
 }

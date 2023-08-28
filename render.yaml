@@ -4,7 +4,7 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: production
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://us-east-1.1011fee9-16fc-4815-a65b-dc761c359a59.aws.ybdb.io:5433/postgres?ssl=true&sslmode=verify-full&sslrootcert=./root.crt
+        value: jdbc:postgresql://us-east-1.1011fee9-16fc-4815-a65b-dc761c359a59.aws.ybdb.io:5433/postgres?ssl=true&sslmode=verify-full&sslrootcert=/app/root.crt
       - key: SPRING_DATASOURCE_USERNAME
         value: admin
       - key: SPRING_DATASOURCE_PASSWORD

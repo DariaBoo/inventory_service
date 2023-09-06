@@ -3,6 +3,7 @@ package com.cozyhome.inventory.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,8 @@ import com.cozyhome.inventory.service.InventoryService;
 
 import lombok.RequiredArgsConstructor;
 
+@CrossOrigin({ "${api.front.base_url}", "${api.front.localhost}", "${api.front.test_url}",
+"${api.front.additional_url}", "${api.product_service.base_url}" })
 @RequiredArgsConstructor
 @RequestMapping("/inventory")
 @RestController

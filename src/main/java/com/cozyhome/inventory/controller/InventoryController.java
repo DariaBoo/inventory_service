@@ -1,6 +1,7 @@
 package com.cozyhome.inventory.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,23 +23,41 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin({ "${api.front.base_url}", "${api.front.localhost}", "${api.front.test_url}",
 "${api.front.additional_url}", "${api.product_service.base_url}" })
 @RequiredArgsConstructor
-@RequestMapping("/inventory")
+@RequestMapping("/api/v1/inventory")
 @RestController
 public class InventoryController {
 	private final InventoryService inventoryService;
 	
-	@PostMapping
-	public ResponseEntity<Integer> getProductQuantity(@RequestBody ProductColorDto productColorDto){
-		return ResponseEntity.ok(inventoryService.getQuantityByProductColor(productColorDto));
+//	@PostMapping
+//	public ResponseEntity<Integer> getProductQuantity(@RequestBody ProductColorDto productColorDto){
+//		return ResponseEntity.ok(inventoryService.getQuantityByProductColor(productColorDto));
+//	}
+	
+//	@PostMapping("/product_skuCode_list")
+//	public ResponseEntity<List<ProductQuantityStatusDto>> getProductQuantityBySkuCodes(@RequestBody ProductSkuCodeRequest productSkuCodes){
+//		return ResponseEntity.ok(inventoryService.getQuantityStatusBySkuCodeList(productSkuCodes));
+//	}
+//	
+//	@GetMapping("/product_skuCode")
+//	public ResponseEntity<List<ColorQuantityStatusDto>> getColorQuantityBySkuCode(@RequestParam String productSkuCode){
+//		return ResponseEntity.ok(inventoryService.getQuantityStatusBySkuCode(productSkuCode));
+//	}
+	
+	//for product card
+	@PostMapping("/default_color_quantity_status/product_color")
+	public ResponseEntity<String> getDefaultColorQuantityStatus(@RequestBody ProductColorDto productColorDto){
+		return ResponseEntity.ok(inventoryService.getQuantityStatusByProductColor(productColorDto));
 	}
 	
-	@PostMapping("/product_skuCode_list")
-	public ResponseEntity<List<ProductQuantityStatusDto>> getProductQuantityBySkuCodes(@RequestBody ProductSkuCodeRequest productSkuCodes){
-		return ResponseEntity.ok(inventoryService.getQuantityStatusBySkuCodeList(productSkuCodes));
-	}
-	
-	@GetMapping("/product_skuCode")
+	//for product card
+	@GetMapping("/color_quantity_status_list/product_skuCode")
 	public ResponseEntity<List<ColorQuantityStatusDto>> getColorQuantityBySkuCode(@RequestParam String productSkuCode){
-		return ResponseEntity.ok(inventoryService.getQuantityStatusBySkuCode(productSkuCode));
+		return ResponseEntity.ok(inventoryService.getColorQuantityStatusBySkuCode(productSkuCode));
+	}	
+	
+	//for review
+	@PostMapping("/quantity_status_map/product_skuCode_list")
+	public ResponseEntity<Map<String, String>> getProductQuantityStatusMap(@RequestBody List<String> productSkuCodeList){
+		return ResponseEntity.ok(inventoryService.getQuantityStatusBySkuCodeList(productSkuCodeList));
 	}
 }

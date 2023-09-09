@@ -16,20 +16,20 @@ public enum ProductQuantityStatus {
         this.isAvailable = isAvailable;
     }
 
-    public static ProductQuantityStatus getByProductQuantity(int productQuantity) {
+    public static String getStatusByQuantity(int productQuantity) {
         final int zero_quantity = 0;
         final int limited_quantity = 2;
 
         if (productQuantity == zero_quantity) {
-            return OUT_OF_STOCK;
+            return OUT_OF_STOCK.getDescription();
         } else if (productQuantity < limited_quantity) {
-            return LIMITED_STOCK;
+            return LIMITED_STOCK.getDescription();
         } else {
-            return IN_STOCK;
+            return IN_STOCK.getDescription();
         }
     }
 
-    public static String getDescriptionForFalseAvailability(boolean isAvailable) {
+    public static String getStatusByAvailability(boolean isAvailable) {
     	System.out.println("IS AVAILABLE: " + isAvailable);
         if (isAvailable) {
             return IN_STOCK.description;

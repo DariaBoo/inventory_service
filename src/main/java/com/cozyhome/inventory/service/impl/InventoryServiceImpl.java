@@ -122,7 +122,9 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	private String convertQuantityToQuantityStatus(int productQuantity) {
-		return ProductQuantityStatus.getByProductQuantity(productQuantity).getDescription();
+		 String status = ProductQuantityStatus.getStatusByQuantity(productQuantity);
+		 log.info("QUANTITY STATUS [" + status + "] FOR QUANTITY " + productQuantity);
+		 return status;
 	}
 
 	@Override
@@ -135,7 +137,7 @@ public class InventoryServiceImpl implements InventoryService {
 	private ColorQuantityStatusDto map(Inventory inventory) {
 		ColorQuantityStatusDto dto = new ColorQuantityStatusDto();
 		dto.setColorHex(inventory.getProductColor().getColorHex());
-		dto.setQuantityStatus(ProductQuantityStatus.getByProductQuantity(inventory.getQuantity()).getDescription());
+		dto.setQuantityStatus(ProductQuantityStatus.getStatusByQuantity(inventory.getQuantity()));
 		return dto;
 	}
 }

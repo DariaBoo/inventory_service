@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cozyhome.inventory.dto.ColorQuantityStatusDto;
 import com.cozyhome.inventory.dto.ProductColorDto;
+import com.cozyhome.inventory.dto.QuantityStatusDto;
 import com.cozyhome.inventory.service.InventoryService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,11 +26,12 @@ import lombok.RequiredArgsConstructor;
 public class InventoryController {
 	private final InventoryService inventoryService;
 	
-	//for product card
-	@RequestMapping(method = RequestMethod.POST, value = "/default_color_quantity_status/product_color", produces = "application/json;charset=UTF-8")
-	public ResponseEntity<String> getDefaultColorQuantityStatus(@RequestBody ProductColorDto productColorDto){
-		String result = inventoryService.getQuantityStatusByProductColor(productColorDto);	
-		return new ResponseEntity<>(result, HttpStatus.OK);
+	//for product card - , produces = "application/json;charset=UTF-8"
+	@RequestMapping(method = RequestMethod.POST, value = "/default_color_quantity_status/product_color")
+	public ResponseEntity<QuantityStatusDto> getDefaultColorQuantityStatus(@RequestBody ProductColorDto productColorDto){
+		String status = inventoryService.getQuantityStatusByProductColor(productColorDto);	
+		QuantityStatusDto response = new QuantityStatusDto(status);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	//for product card

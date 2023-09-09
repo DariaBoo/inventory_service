@@ -28,9 +28,9 @@ public class InventoryController {
 	
 //	@PostMapping
 //	public ResponseEntity<Integer> getProductQuantity(@RequestBody ProductColorDto productColorDto){
-//		return ResponseEntity.ok(inventoryService.getQuantityByProductColor(productColorDto));
+//		return ResponseEntity.ok(inventoryService.getQuantityByProductColor1(productColorDto));
 //	}
-	
+//	
 //	@PostMapping("/product_skuCode_list")
 //	public ResponseEntity<List<ProductQuantityStatusDto>> getProductQuantityBySkuCodes(@RequestBody ProductSkuCodeRequest productSkuCodes){
 //		return ResponseEntity.ok(inventoryService.getQuantityStatusBySkuCodeList(productSkuCodes));

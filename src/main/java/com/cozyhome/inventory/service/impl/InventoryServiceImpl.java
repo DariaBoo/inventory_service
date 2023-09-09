@@ -30,7 +30,7 @@ public class InventoryServiceImpl implements InventoryService {
 	private final ModelMapper modelMapper;
 
 //	@Override
-//	public int getQuantityByProductColor(ProductColorDto request) {
+//	public int getQuantityByProductColor1(ProductColorDto request) {
 //		int quantity = -1;
 //		Optional<Inventory> inventory = inventoryRepository.findByProductColorProductSkuCodeAndProductColorColorHex(
 //				request.getProductSkuCode(), request.getColorHex());
@@ -50,7 +50,7 @@ public class InventoryServiceImpl implements InventoryService {
 //		Map<String, List<Inventory>> map = groupInventoryBySkuCode(inventoryList);		
 //		return map.entrySet().stream().map(entry -> mapToDto(entry.getKey(), entry.getValue())).toList();
 //	}
-//	
+	
 //	private Map<String, List<Inventory>> groupInventoryBySkuCode(List<Inventory> inventoryList){
 //		Map<String, List<Inventory>> map = new HashMap<>();
 //		for(Inventory inventory : inventoryList) {
@@ -67,19 +67,28 @@ public class InventoryServiceImpl implements InventoryService {
 //		dto.setQuantityStatus(ProductQuantityStatus.getByProductQuantity(totalQuntity).getDescription());
 //		return dto;
 //	}
-//
+
 //	@Override
 //	public List<ColorQuantityStatusDto> getQuantityStatusBySkuCode(String productSkuCode) {
 //		List<Inventory> inventoryList = inventoryRepository.findByProductColorProductSkuCode(productSkuCode);
 //		return inventoryList.stream().map(this::map).toList();
 //	}
-//	
+	
 //	private ColorQuantityStatusDto map(Inventory inventory) {
 //		ColorQuantityStatusDto dto = new ColorQuantityStatusDto();
 //		dto.setColorHex(inventory.getProductColor().getColorHex());
 //		dto.setQuantityStatus(ProductQuantityStatus.getByProductQuantity(inventory.getQuantity()).getDescription());
 //		return dto;
 //	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public int getQuantityByProductColor(ProductColorDto request) {
 		int quantity = -1;

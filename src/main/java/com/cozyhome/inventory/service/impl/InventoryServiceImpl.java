@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.cozyhome.inventory.dto.ProductColorDto;
+import com.cozyhome.inventory.dto.QuantityStatusDto;
 import com.cozyhome.inventory.model.Inventory;
 import com.cozyhome.inventory.model.enums.ProductQuantityStatus;
 import com.cozyhome.inventory.repository.InventoryRepository;
@@ -44,14 +45,14 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	@Override
-	public Map<String, String> getQuantityStatusBySkuCodeList(List<String> productSkuCodeList) {
+	public Map<String, String> getQuantityStatusBySkuCodeList(List<String> productSkuCodeList) {		
 		List<Inventory> inventoryList = inventoryRepository.findByProductColorProductSkuCodeIn(productSkuCodeList);
 		Map<String, String> map = new HashMap<>();
 		for (Inventory inventory : inventoryList) {
 			String productSkuCode = inventory.getProductColor().getProductSkuCode();
 			String quantityStatus = convertQuantityToQuantityStatus(inventory.getQuantity());
 			map.put(productSkuCode, quantityStatus);
-		}
+		}		
 		return map;
 	}
 
@@ -61,14 +62,19 @@ public class InventoryServiceImpl implements InventoryService {
 		return status;
 	}
 
-	public Map<String, String> getColorQuantityStatusBySkuCode(String productSkuCode) {
+	public QuantityStatusDto getProductCardColorQuantityStatus(String productSkuCode) {
+		QuantityStatusDto result = new QuantityStatusDto();
 		List<Inventory> inventoryList = inventoryRepository.findByProductColorProductSkuCode(productSkuCode);
 		Map<String, String> map = new HashMap<>();
 		for (Inventory inventory : inventoryList) {
 			String quantityStatus = ProductQuantityStatus.getStatusByQuantity(inventory.getQuantity());
 			map.put(inventory.getProductColor().getColorHex(),quantityStatus);
 		}
-		log.info("Get colorHex - quantityStatus map [size:" + map.size());
-		return map;
+		int quantity = inventoryList.stream().mapToInt(Inventory::getQuantity).sum();
+		result.setColorQuantityStatus(map);
+		result.setStatus(ProductQuantityStatus.getStatusByQuantity(quantity));
+		log.info("Get quantity status dto for product [" + productSkuCode + "]");
+		return result;
 	}
+	
 }

@@ -3,17 +3,14 @@ package com.cozyhome.inventory.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cozyhome.inventory.dto.ProductColorDto;
 import com.cozyhome.inventory.dto.QuantityStatusDto;
 import com.cozyhome.inventory.service.InventoryService;
 
@@ -26,17 +23,17 @@ public class InventoryController {
 	private final InventoryService inventoryService;
 	
 	//no method - change to shopping cart 
-	@RequestMapping(method = RequestMethod.POST, value = "/default_color_quantity_status/product_color")
-	public ResponseEntity<QuantityStatusDto> getDefaultColorQuantityStatus(@RequestBody ProductColorDto productColorDto){
-		String status = inventoryService.getQuantityStatusByProductColor(productColorDto);	
-		QuantityStatusDto response = new QuantityStatusDto(status);
-		return new ResponseEntity<>(response, HttpStatus.OK);
-	}
+//	@RequestMapping(method = RequestMethod.POST, value = "/default_color_quantity_status/product_color")
+//	public ResponseEntity<QuantityStatusDto> getDefaultColorQuantityStatus(@RequestBody ProductColorDto productColorDto){
+//		String status = inventoryService.getQuantityStatusByProductColor(productColorDto);	
+//		QuantityStatusDto response = new QuantityStatusDto(status);
+//		return new ResponseEntity<>(response, HttpStatus.OK);
+//	}
 	
 	//for product card
-	@GetMapping("/color_quantity_status_map/product_skuCode")
-	public ResponseEntity<Map<String, String>> getColorQuantityStatusBySkuCode(@RequestParam String productSkuCode){
-		return ResponseEntity.ok(inventoryService.getColorQuantityStatusBySkuCode(productSkuCode));
+	@GetMapping("/color_quantity_status/product_skuCode")
+	public ResponseEntity<QuantityStatusDto> getColorQuantityStatusBySkuCode(@RequestParam String productSkuCode){
+		return ResponseEntity.ok(inventoryService.getProductCardColorQuantityStatus(productSkuCode));
 	}	
 	
 	//for preview

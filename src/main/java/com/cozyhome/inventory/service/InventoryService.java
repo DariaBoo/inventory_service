@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cozyhome.inventory.dto.ProductColorDto;
+import com.cozyhome.inventory.dto.QuantityStatusDto;
 
 public interface InventoryService {
 	
@@ -13,6 +14,6 @@ public interface InventoryService {
 	
 	Map<String, String> getQuantityStatusBySkuCodeList(List<String> productSkuCodeList);
 	
-	Map<String, String> getColorQuantityStatusBySkuCode(String productSkuCode);
+	QuantityStatusDto getProductCardColorQuantityStatus(String productSkuCode);
 	
 }

@@ -8,7 +8,6 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.cozyhome.inventory.dto.ColorQuantityStatusDto;
 import com.cozyhome.inventory.dto.ProductColorDto;
 import com.cozyhome.inventory.model.Inventory;
 import com.cozyhome.inventory.model.enums.ProductQuantityStatus;
@@ -23,8 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class InventoryServiceImpl implements InventoryService {
 	private final InventoryRepository inventoryRepository;
-	private final ModelMapper modelMapper;	
-	
+	private final ModelMapper modelMapper;
+
 	@Override
 	public int getQuantityByProductColor(ProductColorDto request) {
 		int quantity = -1;
@@ -46,10 +45,9 @@ public class InventoryServiceImpl implements InventoryService {
 
 	@Override
 	public Map<String, String> getQuantityStatusBySkuCodeList(List<String> productSkuCodeList) {
-		List<Inventory> inventoryList = inventoryRepository
-				.findByProductColorProductSkuCodeIn(productSkuCodeList);
+		List<Inventory> inventoryList = inventoryRepository.findByProductColorProductSkuCodeIn(productSkuCodeList);
 		Map<String, String> map = new HashMap<>();
-		for(Inventory inventory : inventoryList) {
+		for (Inventory inventory : inventoryList) {
 			String productSkuCode = inventory.getProductColor().getProductSkuCode();
 			String quantityStatus = convertQuantityToQuantityStatus(inventory.getQuantity());
 			map.put(productSkuCode, quantityStatus);
@@ -58,22 +56,19 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	private String convertQuantityToQuantityStatus(int productQuantity) {
-		 String status = ProductQuantityStatus.getStatusByQuantity(productQuantity);
-		 log.info("QUANTITY STATUS [" + status + "] FOR QUANTITY " + productQuantity);
-		 return status;
+		String status = ProductQuantityStatus.getStatusByQuantity(productQuantity);
+		log.info("QUANTITY STATUS [" + status + "] FOR QUANTITY " + productQuantity);
+		return status;
 	}
 
-	@Override
-	public List<ColorQuantityStatusDto> getColorQuantityStatusBySkuCode(String productSkuCode) {
+	public Map<String, String> getColorQuantityStatusBySkuCode(String productSkuCode) {
 		List<Inventory> inventoryList = inventoryRepository.findByProductColorProductSkuCode(productSkuCode);
-		log.info("Get inventory list [size:" + inventoryList.size());
-		return inventoryList.stream().map(this::map).toList();
-	}
-
-	private ColorQuantityStatusDto map(Inventory inventory) {
-		ColorQuantityStatusDto dto = new ColorQuantityStatusDto();
-		dto.setColorHex(inventory.getProductColor().getColorHex());
-		dto.setQuantityStatus(ProductQuantityStatus.getStatusByQuantity(inventory.getQuantity()));
-		return dto;
+		Map<String, String> map = new HashMap<>();
+		for (Inventory inventory : inventoryList) {
+			String quantityStatus = ProductQuantityStatus.getStatusByQuantity(inventory.getQuantity());
+			map.put(inventory.getProductColor().getColorHex(),quantityStatus);
+		}
+		log.info("Get colorHex - quantityStatus map [size:" + map.size());
+		return map;
 	}
 }

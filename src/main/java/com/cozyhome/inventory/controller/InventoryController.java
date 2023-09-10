@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cozyhome.inventory.dto.ColorQuantityStatusDto;
 import com.cozyhome.inventory.dto.ProductColorDto;
 import com.cozyhome.inventory.dto.QuantityStatusDto;
 import com.cozyhome.inventory.service.InventoryService;
@@ -26,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class InventoryController {
 	private final InventoryService inventoryService;
 	
-	//for product card - , produces = "application/json;charset=UTF-8"
+	//no method - change to shopping cart 
 	@RequestMapping(method = RequestMethod.POST, value = "/default_color_quantity_status/product_color")
 	public ResponseEntity<QuantityStatusDto> getDefaultColorQuantityStatus(@RequestBody ProductColorDto productColorDto){
 		String status = inventoryService.getQuantityStatusByProductColor(productColorDto);	
@@ -35,12 +34,12 @@ public class InventoryController {
 	}
 	
 	//for product card
-	@GetMapping("/color_quantity_status_list/product_skuCode")
-	public ResponseEntity<List<ColorQuantityStatusDto>> getColorQuantityBySkuCode(@RequestParam String productSkuCode){
+	@GetMapping("/color_quantity_status_map/product_skuCode")
+	public ResponseEntity<Map<String, String>> getColorQuantityStatusBySkuCode(@RequestParam String productSkuCode){
 		return ResponseEntity.ok(inventoryService.getColorQuantityStatusBySkuCode(productSkuCode));
 	}	
 	
-	//for review
+	//for preview
 	@PostMapping("/quantity_status_map/product_skuCode_list")
 	public ResponseEntity<Map<String, String>> getProductQuantityStatusMap(@RequestBody List<String> productSkuCodeList){
 		return ResponseEntity.ok(inventoryService.getQuantityStatusBySkuCodeList(productSkuCodeList));

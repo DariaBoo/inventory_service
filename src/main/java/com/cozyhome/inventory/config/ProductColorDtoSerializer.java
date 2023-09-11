@@ -5,12 +5,10 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 import java.io.StringWriter;
 
-@Configuration
 public class ProductColorDtoSerializer extends JsonSerializer<ProductColorDto> {
 
     private ObjectMapper mapper = new ObjectMapper();

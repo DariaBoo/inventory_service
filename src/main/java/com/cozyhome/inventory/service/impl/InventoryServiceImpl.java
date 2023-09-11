@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.cozyhome.inventory.config.ProductColorDtoSerializer;
 import com.cozyhome.inventory.dto.CheckingProductAvailableAndStatusDto;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 public class InventoryServiceImpl implements InventoryService {
 	private final InventoryRepository inventoryRepository;
 	private final ModelMapper modelMapper;
+	@JsonSerialize(keyUsing = ProductColorDtoSerializer.class)
+	private Map<ProductColorDto, CheckingProductAvailableAndStatusDto> checkAvailableAndStatusMap = new HashMap<>();
 
 	@Override
 	public int getQuantityByProductColor(ProductColorDto request) {
@@ -80,7 +84,6 @@ public class InventoryServiceImpl implements InventoryService {
 
 	@Override
 	public Map<ProductColorDto, CheckingProductAvailableAndStatusDto> getProductAvailableStatus(List<ProductColorDto> productColorDto) {
-		Map<ProductColorDto, CheckingProductAvailableAndStatusDto> checkAvailableAndStatusMap = new HashMap<>();
 		for (ProductColorDto productColor : productColorDto) {
 			Optional<Integer> inventory = inventoryRepository.findQuantityByProductSkuCodeAndColorHex(productColor.getProductSkuCode(),
 					productColor.getColorHex());

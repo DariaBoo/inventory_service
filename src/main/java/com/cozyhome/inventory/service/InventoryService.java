@@ -3,7 +3,6 @@ package com.cozyhome.inventory.service;
 import java.util.List;
 import java.util.Map;
 
-import com.cozyhome.inventory.dto.CheckingProductAvailableAndStatusDto;
 import com.cozyhome.inventory.dto.InventoryForBasketDto;
 import com.cozyhome.inventory.dto.ProductColorDto;
 import com.cozyhome.inventory.dto.QuantityStatusDto;

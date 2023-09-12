@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cozyhome.inventory.dto.CheckingProductAvailableAndStatusDto;
+import com.cozyhome.inventory.dto.InventoryForBasketDto;
 import com.cozyhome.inventory.dto.ProductColorDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +47,7 @@ public class InventoryController {
 
 	// for shopping card
 	@PostMapping("/shopping-card-info")
-	public ResponseEntity<Map<ProductColorDto, CheckingProductAvailableAndStatusDto>> getProductAvailableStatus(@RequestBody List<ProductColorDto> productColorDto) {
+	public ResponseEntity<List<InventoryForBasketDto>> getProductAvailableStatus(@RequestBody List<ProductColorDto> productColorDto) {
 		return ResponseEntity.ok(inventoryService.getProductAvailableStatus(productColorDto));
 	}
 }

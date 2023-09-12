@@ -1,11 +1,13 @@
 package com.cozyhome.inventory.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import com.cozyhome.inventory.dto.CheckingProductAvailableAndStatusDto;
+import com.cozyhome.inventory.dto.InventoryForBasketDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -79,22 +81,22 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	@Override
-	public Map<ProductColorDto, CheckingProductAvailableAndStatusDto> getProductAvailableStatus(List<ProductColorDto> productColorDto) {
-		Map<ProductColorDto, CheckingProductAvailableAndStatusDto> checkAvailableAndStatusMap = new HashMap<>();
+	public List<InventoryForBasketDto> getProductAvailableStatus(List<ProductColorDto> productColorDto) {
+		List<InventoryForBasketDto> checkAvailableAndStatus = new ArrayList<>();
 		for (ProductColorDto productColor : productColorDto) {
 			Optional<Integer> inventory = inventoryRepository.findQuantityByProductSkuCodeAndColorHex(productColor.getProductSkuCode(),
 					productColor.getColorHex());
 
 			if (inventory.isPresent()) {
-				checkAvailableAndStatusMap.put(productColor, new CheckingProductAvailableAndStatusDto(inventory.get(),
-						ProductQuantityStatus.getStatusByQuantity(inventory.get())));
+				checkAvailableAndStatus.add(new InventoryForBasketDto(productColor, new CheckingProductAvailableAndStatusDto(inventory.get(),
+						ProductQuantityStatus.getStatusByQuantity(inventory.get()))));
 				log.info("Get availableProductQuantity and quantityStatus for product with skuCode = "
 						+ productColor.getProductSkuCode() + ", and color hex = " + productColor.getColorHex()
 						+ ". class: InventoryServiceImpl, method: getProductAvailableStatus");
 			}
 		}
 
-		return checkAvailableAndStatusMap;
+		return checkAvailableAndStatus;
 	}
 
 }

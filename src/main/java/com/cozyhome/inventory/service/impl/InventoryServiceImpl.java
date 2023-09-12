@@ -1,15 +1,13 @@
 package com.cozyhome.inventory.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import com.cozyhome.inventory.dto.CheckingProductAvailableAndStatusDto;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.cozyhome.inventory.dto.InventoryForBasketDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -85,36 +83,21 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	@Override
-	public String getProductAvailableStatus(List<ProductColorDto> productColorDto) {
+	public List<InventoryForBasketDto> getProductAvailableStatus(List<ProductColorDto> productColorDto) {
+		List<InventoryForBasketDto> checkAvailableAndStatus = new ArrayList<>();
 		for (ProductColorDto productColor : productColorDto) {
 			Optional<Integer> inventory = inventoryRepository.findQuantityByProductSkuCodeAndColorHex(productColor.getProductSkuCode(),
 					productColor.getColorHex());
 
 			if (inventory.isPresent()) {
-				checkAvailableAndStatusMap.put(productColor, new CheckingProductAvailableAndStatusDto(inventory.get(),
-						ProductQuantityStatus.getStatusByQuantity(inventory.get())));
+				checkAvailableAndStatus.add(new InventoryForBasketDto(productColor, new CheckingProductAvailableAndStatusDto(inventory.get(),
+						ProductQuantityStatus.getStatusByQuantity(inventory.get()))));
 				log.info("Get availableProductQuantity and quantityStatus for product with skuCode = "
 						+ productColor.getProductSkuCode() + ", and color hex = " + productColor.getColorHex()
 						+ ". class: InventoryServiceImpl, method: getProductAvailableStatus");
 			}
 		}
-		String checkAvailableAndStatusMapJson = null;
 
-		try {
-			checkAvailableAndStatusMapJson = objectMapper.writeValueAsString(checkAvailableAndStatusMap);;
-		} catch (JsonGenerationException e) {
-
-			// Printing the exception along with line number
-			// using the printStackTrace() method
-			e.printStackTrace();
-		}
-
-		// Catch block 2
-		catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-
-		return checkAvailableAndStatusMapJson;
+		return checkAvailableAndStatus;
 	}
-
 }

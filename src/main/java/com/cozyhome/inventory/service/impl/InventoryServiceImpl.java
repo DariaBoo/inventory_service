@@ -27,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 public class InventoryServiceImpl implements InventoryService {
 	private final InventoryRepository inventoryRepository;
 	private final ModelMapper modelMapper;
+	private final ObjectMapper objectMapper;
+	private Map<ProductColorDto, CheckingProductAvailableAndStatusDto> checkAvailableAndStatusMap = new HashMap<>();
 
 	@Override
 	public int getQuantityByProductColor(ProductColorDto request) {
@@ -48,14 +50,14 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	@Override
-	public Map<String, String> getQuantityStatusBySkuCodeList(List<String> productSkuCodeList) {		
+	public Map<String, String> getQuantityStatusBySkuCodeList(List<String> productSkuCodeList) {
 		List<Inventory> inventoryList = inventoryRepository.findByProductColorProductSkuCodeIn(productSkuCodeList);
 		Map<String, String> map = new HashMap<>();
 		for (Inventory inventory : inventoryList) {
 			String productSkuCode = inventory.getProductColor().getProductSkuCode();
 			String quantityStatus = convertQuantityToQuantityStatus(inventory.getQuantity());
 			map.put(productSkuCode, quantityStatus);
-		}		
+		}
 		return map;
 	}
 
@@ -98,5 +100,4 @@ public class InventoryServiceImpl implements InventoryService {
 
 		return checkAvailableAndStatus;
 	}
-
 }

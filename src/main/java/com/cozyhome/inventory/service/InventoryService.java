@@ -18,5 +18,4 @@ public interface InventoryService {
 	QuantityStatusDto getProductCardColorQuantityStatus(String productSkuCode);
 
 	List<InventoryForBasketDto> getProductAvailableStatus(List<ProductColorDto> productColorDto);
-	
 }

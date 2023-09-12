@@ -46,7 +46,7 @@ public class InventoryController {
 
 	// for shopping card
 	@PostMapping("/shopping-card-info")
-	public ResponseEntity<Map<ProductColorDto, CheckingProductAvailableAndStatusDto>> getProductAvailableStatus(@RequestBody List<ProductColorDto> productColorDto) {
+	public ResponseEntity<String> getProductAvailableStatus(@RequestBody List<ProductColorDto> productColorDto) {
 		return ResponseEntity.ok(inventoryService.getProductAvailableStatus(productColorDto));
 	}
 }

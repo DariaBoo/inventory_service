@@ -27,8 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 public class InventoryServiceImpl implements InventoryService {
 	private final InventoryRepository inventoryRepository;
 	private final ModelMapper modelMapper;
-	private final ObjectMapper objectMapper;
-	private Map<ProductColorDto, CheckingProductAvailableAndStatusDto> checkAvailableAndStatusMap = new HashMap<>();
 
 	@Override
 	public int getQuantityByProductColor(ProductColorDto request) {

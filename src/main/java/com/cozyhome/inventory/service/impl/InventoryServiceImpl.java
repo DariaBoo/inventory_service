@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.cozyhome.inventory.config.ProductColorDtoSerializer;
 import com.cozyhome.inventory.dto.CheckingProductAvailableAndStatusDto;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class InventoryServiceImpl implements InventoryService {
 	private final InventoryRepository inventoryRepository;
 	private final ModelMapper modelMapper;
-	@JsonSerialize(keyUsing = ProductColorDtoSerializer.class)
+	private final ObjectMapper objectMapper;
 	private Map<ProductColorDto, CheckingProductAvailableAndStatusDto> checkAvailableAndStatusMap = new HashMap<>();
 
 	@Override
@@ -50,14 +52,14 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	@Override
-	public Map<String, String> getQuantityStatusBySkuCodeList(List<String> productSkuCodeList) {		
+	public Map<String, String> getQuantityStatusBySkuCodeList(List<String> productSkuCodeList) {
 		List<Inventory> inventoryList = inventoryRepository.findByProductColorProductSkuCodeIn(productSkuCodeList);
 		Map<String, String> map = new HashMap<>();
 		for (Inventory inventory : inventoryList) {
 			String productSkuCode = inventory.getProductColor().getProductSkuCode();
 			String quantityStatus = convertQuantityToQuantityStatus(inventory.getQuantity());
 			map.put(productSkuCode, quantityStatus);
-		}		
+		}
 		return map;
 	}
 
@@ -83,7 +85,7 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	@Override
-	public Map<ProductColorDto, CheckingProductAvailableAndStatusDto> getProductAvailableStatus(List<ProductColorDto> productColorDto) {
+	public String getProductAvailableStatus(List<ProductColorDto> productColorDto) {
 		for (ProductColorDto productColor : productColorDto) {
 			Optional<Integer> inventory = inventoryRepository.findQuantityByProductSkuCodeAndColorHex(productColor.getProductSkuCode(),
 					productColor.getColorHex());
@@ -96,8 +98,23 @@ public class InventoryServiceImpl implements InventoryService {
 						+ ". class: InventoryServiceImpl, method: getProductAvailableStatus");
 			}
 		}
+		String checkAvailableAndStatusMapJson = null;
 
-		return checkAvailableAndStatusMap;
+		try {
+			checkAvailableAndStatusMapJson = objectMapper.writeValueAsString(checkAvailableAndStatusMap);;
+		} catch (JsonGenerationException e) {
+
+			// Printing the exception along with line number
+			// using the printStackTrace() method
+			e.printStackTrace();
+		}
+
+		// Catch block 2
+		catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+		return checkAvailableAndStatusMapJson;
 	}
 
 }
